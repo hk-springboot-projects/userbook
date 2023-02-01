@@ -8,7 +8,7 @@ User Management Application to perform following operations -
 ## Dependencies
 * Java 17
 * spring-boot 3.x
-* MySql
+* H2
 
 ## Installation
 * build project   
