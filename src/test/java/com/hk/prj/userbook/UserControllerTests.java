@@ -3,7 +3,10 @@ package com.hk.prj.userbook;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hk.prj.userbook.user.User;
 import com.hk.prj.userbook.user.UserController;
+import com.hk.prj.userbook.user.UserNotFoundException;
 import com.hk.prj.userbook.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +18,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
@@ -33,14 +36,43 @@ public class UserControllerTests {
     @MockBean
     private UserService userService;
 
-    @Test
-    void getAllUsers_Test() throws Exception {
-        when(userService.getUsers()).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/users")).andExpect(status().is2xxSuccessful());
+    @BeforeEach
+    public void preSetup(){
+        List<User> users = new ArrayList<>();
+        users.add(new User(1L, "User 1 first Name", "User 1 last name"));
+        users.add(new User(2L, "User 2 first Name", "User 2 last name"));
+        when(userService.getUsers()).thenReturn(users);
+        when(userService.getUserById(1L)).thenReturn(users.get(0));
+        when(userService.getUserById(2L)).thenReturn(users.get(1));
+        when(userService.getUserById(3L)).thenThrow(UserNotFoundException.class);
     }
 
     @Test
-    void postUsers_Test() throws Exception {
+    @DisplayName("Get all users")
+    void getAllUsers_success() throws Exception {
+        mockMvc.perform(get("/users"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(asJsonString(userService.getUsers())));
+    }
+
+    @Test
+    @DisplayName("Get users by Id 1")
+    void getUsersById_success() throws Exception {
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(asJsonString(userService.getUserById(1L))));
+    }
+
+    @Test
+    @DisplayName("Get users by Id 3")
+    void getUsersById_failed() throws Exception {
+        mockMvc.perform(get("/users/3"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Save user success")
+    void saveUsers_success() throws Exception {
         when(userService.saveUser(any(User.class))).thenReturn(new User(1L, "Hemant", "Kumar"));
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
