@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -45,6 +45,8 @@ public class UserControllerTests {
         when(userService.getUserById(1L)).thenReturn(users.get(0));
         when(userService.getUserById(2L)).thenReturn(users.get(1));
         when(userService.getUserById(3L)).thenThrow(UserNotFoundException.class);
+        doThrow(UserNotFoundException.class).when(userService).deleteUser(3L);
+        when(userService.saveUser(any(User.class))).thenReturn(new User(1L, "Hemant", "Kumar"));
     }
 
     @Test
@@ -56,7 +58,7 @@ public class UserControllerTests {
     }
 
     @Test
-    @DisplayName("Get users by Id 1")
+    @DisplayName("Get users by Id - found")
     void getUsersById_success() throws Exception {
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().is2xxSuccessful())
@@ -64,7 +66,7 @@ public class UserControllerTests {
     }
 
     @Test
-    @DisplayName("Get users by Id 3")
+    @DisplayName("Get users by Id - Not found")
     void getUsersById_failed() throws Exception {
         mockMvc.perform(get("/users/3"))
                 .andExpect(status().isNotFound());
@@ -73,12 +75,32 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save user success")
     void saveUsers_success() throws Exception {
-        when(userService.saveUser(any(User.class))).thenReturn(new User(1L, "Hemant", "Kumar"));
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(new User(1L, "Hemant", "Kumar"))))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
+    }
+
+    @Test
+    @DisplayName("Delete users by Id - Not found")
+    void deleteUsersById_failed() throws Exception {
+        mockMvc.perform(delete("/users/3"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Delete users by null Id - get exception")
+    void deleteUsersByNullId_failed() throws Exception {
+        mockMvc.perform(delete("/users/null"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Delete users by Id - found")
+    void deleteUsersById_success() throws Exception {
+        mockMvc.perform(delete("/users/1"))
+                .andExpect(status().isOk());
     }
 
     public static String asJsonString(final Object obj) {

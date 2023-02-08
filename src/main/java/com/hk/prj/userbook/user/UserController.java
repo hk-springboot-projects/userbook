@@ -37,4 +37,9 @@ public class UserController {
                 .buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+    }
 }
