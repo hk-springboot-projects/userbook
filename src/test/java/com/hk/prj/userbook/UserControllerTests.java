@@ -26,8 +26,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * WebMvcTest = SpringBootTest + AutoConfigureMockMvc
+ */
 @WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-@ExtendWith(SpringExtension.class)
 public class UserControllerTests {
 
     @Autowired
