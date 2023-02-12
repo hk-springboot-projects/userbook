@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class UserController {
@@ -31,6 +33,8 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
+        if (Objects.nonNull(user.getId()))
+            throw new InvalidMethodException("id is present, Use PUT instead of POST");
         User savedUser = userService.saveUser(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
@@ -39,7 +43,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 }

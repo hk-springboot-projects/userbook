@@ -8,12 +8,14 @@ import com.hk.prj.userbook.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTests {
 
     private List<User> users = new ArrayList<>();
+
     {
-        users.add(new User(1L, "User 1 first Name", "User 1 last name"));
-        users.add(new User(2L, "User 2 first Name", "User 2 last name"));
+        users.add(User.builder().firstName("User 1 first Name").lastName("User 1 last name").build());
+        users.add(User.builder().firstName("User 2 first Name").lastName("User 2 last name").build());
     }
 
     @Autowired
@@ -77,6 +80,61 @@ public class UserControllerTests {
                         .content(asJsonString(users.get(0))))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
+    }
+
+    @Test
+    @DisplayName("Save blank first name user - bad request")
+    void saveBlankFirstNameUsers_returnBadRequest() throws Exception {
+        User user = User.builder().firstName("").lastName("Kumar").build();
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters"));
+    }
+
+    @Test
+    @DisplayName("Save first name 1 letter user - bad request")
+    void saveFirstName1LetterUser_returnBadRequest() throws Exception {
+        User user = User.builder().firstName("H").lastName("Kumar").build();
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters"));
+    }
+
+    @Test
+    @DisplayName("Save blank Last name user - bad request")
+    void saveBlankLastNameUsers_returnBadRequest() throws Exception {
+        User user = User.builder().firstName("Hemant").lastName("").build();
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("last name can't be empty"));
+    }
+
+    @Test
+    @DisplayName("Save blank name user - bad request")
+    void saveBlankNameUsers_returnBadRequest() throws Exception {
+        User user = User.builder().firstName("").lastName("").build();
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters, last name can't be empty"));
+    }
+
+    @Test
+    @DisplayName("Post user with Id - bad request and message")
+    void saveUsersWithId_returnBadRequestWithMessage() throws Exception {
+        User user = User.builder().id(1L).firstName("Hemant").lastName("Kumar").build();
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorDescription").value("id is present, Use PUT instead of POST"));
     }
 
     @Test
