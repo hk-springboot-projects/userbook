@@ -4,7 +4,6 @@ package com.hk.prj.userbook;
 import com.hk.prj.userbook.user.User;
 import com.hk.prj.userbook.user.UserRepository;
 import com.hk.prj.userbook.user.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
