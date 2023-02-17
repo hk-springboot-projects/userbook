@@ -29,13 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 public class UserControllerTests {
 
-    private List<User> users = new ArrayList<>();
-
-    {
-        users.add(User.builder().firstName("User 1 first Name").lastName("User 1 last name").build());
-        users.add(User.builder().firstName("User 2 first Name").lastName("User 2 last name").build());
-    }
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -45,19 +38,19 @@ public class UserControllerTests {
     @Test
     @DisplayName("Get all users")
     void getAllUsers_success() throws Exception {
-        when(userService.getUsers()).thenReturn(users);
+        when(userService.getUsers()).thenReturn(UserUtil.getUsers());
         mockMvc.perform(get("/users"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(asJsonString(users)));
+                .andExpect(content().json(asJsonString(UserUtil.getUsers())));
     }
 
     @Test
     @DisplayName("Get users by Id - found")
     void getUsersById_success() throws Exception {
-        when(userService.getUserById(1L)).thenReturn(users.get(0));
+        when(userService.getUserById(1L)).thenReturn(UserUtil.getUsers().get(0));
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(asJsonString(users.get(0))));
+                .andExpect(content().json(asJsonString(UserUtil.getUsers().get(0))));
     }
 
     @Test
@@ -71,10 +64,10 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save user success")
     void saveUsers_success() throws Exception {
-        when(userService.saveUser(any(User.class))).thenReturn(users.get(0));
+        when(userService.saveUser(any(User.class))).thenReturn(UserUtil.getUsers().get(0));
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(users.get(0))))
+                        .content(asJsonString(UserUtil.getUsers().get(0))))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
     }
@@ -82,7 +75,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save blank first name user - bad request")
     void saveBlankFirstNameUsers_returnBadRequest() throws Exception {
-        User user = User.builder().firstName("").lastName("Kumar").build();
+        User user = UserUtil.getUsers().get(0);
+        user.setFirstName("");
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
@@ -93,7 +87,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save first name 1 letter user - bad request")
     void saveFirstName1LetterUser_returnBadRequest() throws Exception {
-        User user = User.builder().firstName("H").lastName("Kumar").build();
+        User user = UserUtil.getUsers().get(0);
+        user.setFirstName("H");
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
@@ -104,7 +99,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save blank Last name user - bad request")
     void saveBlankLastNameUsers_returnBadRequest() throws Exception {
-        User user = User.builder().firstName("Hemant").lastName("").build();
+        User user = UserUtil.getUsers().get(0);
+        user.setLastName("");
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
@@ -115,7 +111,9 @@ public class UserControllerTests {
     @Test
     @DisplayName("Save blank name user - bad request")
     void saveBlankNameUsers_returnBadRequest() throws Exception {
-        User user = User.builder().firstName("").lastName("").build();
+        User user = UserUtil.getUsers().get(0);
+        user.setFirstName("");
+        user.setLastName("");
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
@@ -126,7 +124,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Post user with Id - bad request and message")
     void saveUsersWithId_returnBadRequestWithMessage() throws Exception {
-        User user = User.builder().id(1L).firstName("Hemant").lastName("Kumar").build();
+        User user = UserUtil.getUsers().get(0);
+        user.setId(1L);
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))

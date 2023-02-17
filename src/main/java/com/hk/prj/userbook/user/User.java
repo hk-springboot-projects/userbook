@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -26,6 +27,14 @@ public class User {
     private String firstName;
     @NotEmpty(message = "last name can't be empty")
     private String lastName;
+    @NotEmpty @Email
+    private String email;
+    @NotEmpty
+    private String gender;
+    @NotEmpty @Size(min = 2, message = "Valid city name required with atleast 2 characters")
+    private String city;
+    @NotEmpty @Size(min = 2, message = "Valid country name required with atleast 2 characters")
+    private String country;
 
     @Override
     public boolean equals(Object o) {
