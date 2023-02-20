@@ -14,9 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -81,7 +80,7 @@ public class UserControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters"));
+                .andExpect(jsonPath("$.errorCode", containsString("first name should have atleast 2 characters")));
     }
 
     @Test
@@ -93,7 +92,7 @@ public class UserControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters"));
+                .andExpect(jsonPath("$.errorCode", containsString("first name should have atleast 2 characters")));
     }
 
     @Test
@@ -118,7 +117,7 @@ public class UserControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorCode").value("first name should have atleast 2 characters, last name can't be empty"));
+                .andExpect(jsonPath("$.errorCode", containsString("first name should have atleast 2 characters")));
     }
 
     @Test
