@@ -48,6 +48,16 @@ public class UserServiceTests {
             assertThat(u).isNotNull();
             assertThat(u.getMessage()).isEqualTo("User not found with id 2");
         }
+    }
 
+    @Test
+    public void deleteUsersById_failed() {
+        when(userRepository.findById(2L)).thenThrow(new UserNotFoundException("User not found with id 2"));
+        try {
+            userService.deleteUser(2L);
+        } catch (UserNotFoundException u) {
+            assertThat(u).isNotNull();
+            assertThat(u.getMessage()).isEqualTo("User not found with id 2");
+        }
     }
 }
