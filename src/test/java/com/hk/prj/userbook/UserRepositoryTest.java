@@ -5,13 +5,15 @@ import com.hk.prj.userbook.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(classes ={UserbookApplication.class} )
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
 
     @Autowired
@@ -47,6 +49,7 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("find all")
     public void testEmptyFindAll(){
+        userRepository.saveAll(UserUtil.getUsers());
         assertThat(userRepository.findAll().size()).isNotEqualTo(0);
     }
 
