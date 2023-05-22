@@ -16,15 +16,8 @@ export class AddUserComponent {
   }
 
   onSubmit() {
-    this.userService.save(this.user).subscribe(result => {
-      if(result instanceof User){
-        this.redirectToUsersList();
-      }
-      else{
-        console.log(result);
-      }
-    });
-  }
+    this.userService.save(this.user).subscribe(result => console.log(result));
+  };
 
   redirectToUsersList() {
     this.router.navigate(['/users']).then(r => console.log(r));
