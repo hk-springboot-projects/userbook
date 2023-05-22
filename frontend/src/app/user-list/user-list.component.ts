@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {UserService} from "../user.service";
 import {Subject} from "rxjs";
+import {User} from "../user";
 
 @Component({
   selector: 'app-user-list',
@@ -11,7 +12,7 @@ export class UserListComponent {
   constructor(private userService: UserService) {
   }
 
-  users: any[] = [];
+  users: User[] = [];
   dtTrigger: Subject<any>= new Subject();
 
   ngOnInit(){

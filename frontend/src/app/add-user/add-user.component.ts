@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {UserService} from "../user.service";
+import {User} from "../user";
+import {FormControl, FormGroup, Validators, FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-user',
@@ -6,5 +10,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent {
+
+  user: User;
+  constructor(private userService: UserService, private router: Router) {
+    this.user = new User();
+  }
+
+  onSubmit() {
+    this.userService.save(this.user).subscribe(result => this.redirectToUsersList());
+  }
+
+  redirectToUsersList() {
+    this.router.navigate(['/users']).then(r => "User Created Successfully!");
+  }
 
 }

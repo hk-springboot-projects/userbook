@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {User} from "./user";
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -12,5 +17,9 @@ export class UserService {
 
   getUsers(): Observable<any>{
     return this.http.get(`${this.baseUrl}`);
+  }
+
+  save(user: User){
+    return this.http.post<User>(`${this.baseUrl}`, user);
   }
 }
