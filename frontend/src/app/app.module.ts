@@ -8,13 +8,19 @@ import { AppComponent } from './app.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
     ViewUserComponent,
-    UserListComponent
+    UserListComponent,
+    MainPageComponent,
+    HeaderComponent,
+    FooterComponent
   ],
     imports: [
         BrowserModule,

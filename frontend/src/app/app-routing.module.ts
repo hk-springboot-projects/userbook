@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import {ViewUserComponent} from "./view-user/view-user.component";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {UserListComponent} from "./user-list/user-list.component";
+import {MainPageComponent} from "./main-page/main-page.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: 'users', pathMatch: 'full' },
+  { path: '', component: MainPageComponent },
   { path: 'users', component: UserListComponent },
   { path: 'view-user', component: ViewUserComponent },
   { path: 'add-user', component: AddUserComponent }
