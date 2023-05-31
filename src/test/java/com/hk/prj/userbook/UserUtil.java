@@ -1,6 +1,8 @@
 package com.hk.prj.userbook;
 
 import com.hk.prj.userbook.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,5 +13,9 @@ public class UserUtil {
         User user2 = User.builder().firstName("H2").lastName("K2").city("Mumbai").gender("M").email("h2@hk.com").country("IND").build();
         User user3 = User.builder().firstName("H3").lastName("K3").city("Hyderabad").gender("M").email("h3@hk.com").country("IND").build();
         return Arrays.asList(user1, user2, user3);
+    }
+
+    public static Page<User> getUsersPage() {
+        return new PageImpl<>(getUsers());
     }
 }

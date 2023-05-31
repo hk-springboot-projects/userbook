@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,8 +39,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Get all users")
     void getAllUsers_success() throws Exception {
-        when(userService.getUsers()).thenReturn(UserUtil.getUsers());
-        mockMvc.perform(get("/users"))
+        when(userService.getUsers(PageRequest.of(1, 20, Sort.by("email")))).thenReturn(UserUtil.getUsers());
+        mockMvc.perform(get("/users?offset=1&page_size=20&sort_by=email"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(asJsonString(UserUtil.getUsers())));
     }

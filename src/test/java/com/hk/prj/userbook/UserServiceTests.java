@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -27,8 +30,8 @@ public class UserServiceTests {
 
     @Test
     public void getAllUsers_Test() {
-        when(userRepository.findAll()).thenReturn(UserUtil.getUsers());
-        assertThat(userService.getUsers().size()).isNotEqualTo(0);
+        when(userRepository.findAll(PageRequest.of(1, 20, Sort.by("email")))).thenReturn(UserUtil.getUsersPage());
+        assertThat(userService.getUsers(PageRequest.of(1, 20, Sort.by("email"))).size()).isNotEqualTo(0);
     }
 
     @Test

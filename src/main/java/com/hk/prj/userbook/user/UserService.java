@@ -1,5 +1,8 @@
 package com.hk.prj.userbook.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +15,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<User> getUsers(PageRequest pageRequest) {
+        return userRepository.findAll(pageRequest).stream().toList();
     }
 
     public User getUserById(Long id) {

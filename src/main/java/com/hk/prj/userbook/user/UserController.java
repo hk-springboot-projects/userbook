@@ -2,6 +2,9 @@ package com.hk.prj.userbook.user;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public List<User> getUsers(@RequestParam("offset") int offset, @RequestParam("page_size") int pageSize, @RequestParam("sort_by") String sortBy) {
+        return userService.getUsers(PageRequest.of(offset, pageSize, Sort.by(sortBy)));
     }
 
     @GetMapping("/users/{id}")
