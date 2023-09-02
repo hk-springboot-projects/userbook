@@ -1,4 +1,4 @@
-package com.hk.prj.userbook.user;
+package com.hk.prj.userbook.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

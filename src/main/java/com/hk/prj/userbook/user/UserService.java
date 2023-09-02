@@ -1,8 +1,7 @@
 package com.hk.prj.userbook.user;
 
-import org.springframework.data.domain.Page;
+import com.hk.prj.userbook.exception.UserNotFoundException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

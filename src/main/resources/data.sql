@@ -1,0 +1,28 @@
+-- data generated using https://generatedata.com
+INSERT INTO user_details (first_name,last_name,email,city,country)
+VALUES
+    ('Jennifer','Shannon','id.libero.donec@aol.ca','Kramatorsk','Nigeria'),
+    ('Bo','Higgins','nunc.sed.orci@icloud.couk','Geylang','Sweden'),
+    ('Clinton','Gentry','justo.proin.non@outlook.org','Canberra','Chile'),
+    ('Anika','Sanchez','nibh.quisque@hotmail.net','Seosan','China'),
+    ('Christen','Mercer','faucibus.morbi.vehicula@google.couk','San Andrés','United States'),
+    ('Nyssa','Santana','maecenas@yahoo.com','Borlänge','Colombia'),
+    ('Xavier','Alvarez','amet.faucibus.ut@protonmail.edu','Heilongjiang','Colombia'),
+    ('Harriet','Griffin','molestie.sodales@outlook.couk','Tomaszów Mazowiecki','Germany'),
+    ('Zorita','Cherry','feugiat@aol.ca','Berwick','Canada'),
+    ('Alvin','Gould','ac@yahoo.com','Jemeppe-sur-Meuse','Singapore'),
+    ('Ira','Stokes','sagittis.lobortis.mauris@outlook.org','Changi','Italy'),
+    ('Jena','English','arcu@yahoo.edu','Nha Trang','Nigeria'),
+    ('Kirsten','Cox','porttitor.interdum@icloud.com','Frauenkirchen','France'),
+    ('Harding','Richards','amet.metus@yahoo.com','Ollagüe','India'),
+    ('Howard','Norton','ipsum@aol.couk','Minitonas','Mexico'),
+    ('Leandra','Osborne','adipiscing.non.luctus@hotmail.edu','Ełk','Sweden'),
+  ('Cade','Garner','blandit.at@aol.couk','Birmingham','South Korea'),
+  ('Uma','Davenport','iaculis.odio@hotmail.org','Dublin','Sweden'),
+  ('Ramona','Britt','volutpat.nulla@aol.ca','Puno','Peru'),
+  ('Kimberly','Deleon','eget.volutpat@hotmail.couk','Liaoning','Peru'),
+    ('Isaiah','Daugherty','et.lacinia.vitae@aol.org','İskenderun','Chile'),
+    ('Craig','Albert','tempor.bibendum@aol.edu','Zaria','France'),
+    ('Mariam','Santana','vitae.aliquam.eros@protonmail.org','Tarnów','China'),
+    ('Kaitlin','Cleveland','eu.metus@icloud.com','Sembawang','Sweden'),
+    ('Jack','Wagner','velit.in.aliquet@outlook.ca','Yeongcheon','Spain');

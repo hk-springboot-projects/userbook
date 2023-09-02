@@ -1,9 +1,9 @@
 package com.hk.prj.userbook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hk.prj.userbook.exception.UserNotFoundException;
 import com.hk.prj.userbook.user.User;
 import com.hk.prj.userbook.user.UserController;
-import com.hk.prj.userbook.user.UserNotFoundException;
 import com.hk.prj.userbook.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;

@@ -1,7 +1,5 @@
 package com.hk.prj.userbook.exception;
 
-import com.hk.prj.userbook.user.InvalidMethodException;
-import com.hk.prj.userbook.user.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

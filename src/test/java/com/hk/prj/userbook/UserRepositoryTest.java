@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 public class UserRepositoryTest {
 
     @Autowired
@@ -26,12 +26,18 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DisplayName("find all")
+    public void initial_data_count_success(){
+        assertThat(userRepository.findAll().size()).isEqualTo(25);
+    }
+
+    @Test
     @DisplayName("save user")
     public void testSaveUser_success(){
         User savedUser = userRepository.save(UserUtil.getUsers().get(0));
         assertThat(savedUser).isNotNull();
-        assertThat(savedUser.getFirstName().equalsIgnoreCase("H1"));
-        assertThat(savedUser.getLastName().equalsIgnoreCase("K1"));
+        assertThat(savedUser.getFirstName()).isEqualTo("H1");
+        assertThat(savedUser.getLastName()).isEqualTo("K1");
         assertThat(savedUser.getId()).isNotNull();
     }
 
@@ -39,18 +45,22 @@ public class UserRepositoryTest {
     @DisplayName("save users list")
     public void testSaveUsers_success(){
         List<User> savedUsers = userRepository.saveAll(UserUtil.getUsers());
-        assertThat(savedUsers.size() > 0);
-        assertThat(savedUsers.get(0).getFirstName().equalsIgnoreCase("H1"));
-        assertThat(savedUsers.get(0).getLastName().equalsIgnoreCase("K1"));
+        assertThat(savedUsers.size()).isEqualTo(3);
+        assertThat(savedUsers.get(0).getFirstName()).isEqualTo("H1");
+        assertThat(savedUsers.get(0).getLastName()).isEqualTo("K1");
         assertThat(savedUsers.get(0).getId()).isNotNull();
     }
 
-
     @Test
-    @DisplayName("find all")
-    public void testEmptyFindAll(){
-        userRepository.saveAll(UserUtil.getUsers());
-        assertThat(userRepository.findAll().size()).isNotEqualTo(0);
+    @DisplayName("delete users success")
+    public void deleteUsers_success(){
+        List<User> savedUsers = userRepository.findAll();
+        assertThat(savedUsers.size()).isEqualTo(25);
+        userRepository.delete(savedUsers.get(0));
+        assertThat(userRepository.findAll().size()).isEqualTo(24);
     }
+
+
+
 
 }

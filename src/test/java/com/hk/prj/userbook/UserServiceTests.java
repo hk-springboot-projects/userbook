@@ -2,14 +2,13 @@ package com.hk.prj.userbook;
 
 
 import com.hk.prj.userbook.user.User;
-import com.hk.prj.userbook.user.UserNotFoundException;
+import com.hk.prj.userbook.exception.UserNotFoundException;
 import com.hk.prj.userbook.user.UserRepository;
 import com.hk.prj.userbook.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
