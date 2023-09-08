@@ -24,7 +24,9 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers(@RequestParam("offset") int offset, @RequestParam("page_size") int pageSize, @RequestParam("sort_by") String sortBy) {
+    public List<User> getUsers(@RequestParam("offset") int offset,
+                               @RequestParam("page_size") int pageSize,
+                               @RequestParam("sort_by") String sortBy) {
         return userService.getUsers(PageRequest.of(offset, pageSize, Sort.by(sortBy)));
     }
 

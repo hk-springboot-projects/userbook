@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   LINKS ={
-    USERS: "users"
+    USERS: "users",
+    ADD_USER: "add-user",
+    VIEW_USER: "view-user"
   }
 }

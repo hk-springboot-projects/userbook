@@ -14,6 +14,11 @@ export class UserListComponent {
 
   users: User[] = [];
   dtTrigger: Subject<any>= new Subject();
+  LINKS ={
+    USERS: "users",
+    ADD_USER: "add-user",
+    VIEW_USER: "view-user"
+  }
 
   ngOnInit(){
     this.userService.getUsers().subscribe(data =>{

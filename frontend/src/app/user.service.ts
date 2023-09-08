@@ -8,7 +8,7 @@ import {User} from "./user";
 })
 export class UserService {
 
-  private baseUrl = "http://localhost:8080/users";
+  private baseUrl = "http://localhost:8080/users?offset=0&page_size=10&sort_by=id";
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<any>{
